@@ -1,0 +1,32 @@
+<h1 class='logo'>FORECASTER</h1>
+<div class='container'>
+  <%= form_with(url: "/forecast/index", method: "get", local: true, class: 'search-form') do %>
+    <div class='search-form-field'>
+      <%= select_tag :address, options_for_select([]), prompt: 'Search by address or zip', class: 'search-form-field-field' %>
+      <%= submit_tag("Search", class: 'search-form-field-submit') %>
+    </div>
+  <% end %>
+
+    <% if @weather_stats.present? && @weather_stats != :not_found %>
+  <div class='weather-card'>
+      <div class='weather-card-cache-display'><%= "FROM CACHE" if @cached_response %></div>
+      <div class='weather-card-left'>
+        <h2 class='weather-card-name'><%= @weather_stats[:location_name] %></h2>
+        <span class='weather-card-time'>as of <%= @weather_stats[:time_utc] %> UTC</span>
+        <span class='weather-card-temp'><%= display_degrees(@weather_stats[:temp]) %></span>
+        <span class='weather-card-weather'><%= @weather_stats[:weather] %></span>
+      </div>
+      <div class='weather-card-right'>
+        <%= image_tag "http://openweathermap.org/img/wn/#{@weather_stats[:icon]}@2x.png", class: 'weather-card-icon' %>
+        <span class='weather-card-minmax'><%= display_degrees(@weather_stats[:min]) %>/<%=display_degrees(@weather_stats[:max]) %></p>
+      </div>
+  </div>
+    <% elsif @weather_stats == :not_found %>
+  <div class='weather-card'>
+      <div>NO WEATHER RESULTS FOUND.</div>
+  </div>
+    <% end %>
+</div>
+
+<%= javascript_pack_tag 'forecast_index.js' %>
+<%= stylesheet_pack_tag 'forecast_index.css' %>
