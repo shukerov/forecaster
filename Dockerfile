@@ -14,8 +14,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt update && apt install yarn
 
-# RUN apt-get update && apt-get install -y yarn && rm -rf /var/lib/apt/lists/*
-
 RUN mkdir /application
 WORKDIR /application
 
@@ -27,8 +25,7 @@ COPY . /application
 
 # precompile assets
 RUN bundle exec rake assets:precompile
-
 # install yarn packages
-RUN yarn install && bundle exec rails webpacker:compile
+RUN yarn install --check-files && bundle exec rails webpacker:compile
 
 CMD ["bin/rails","s","-b","0.0.0.0"]
