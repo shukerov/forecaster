@@ -29,6 +29,7 @@ Install your gems with `bundle install --path=vendor`, and stand up the app with
 * The search field is poorly done. Takes a while to load, and comes up with sometimes erroneous results.
 * Weather card time data should be local to the search place.
 * Cache is small, and unfit for a real production environment.
+* Doesn't look well on mobile.
 * Many others (especially if the app is run in production) :D
 
 ## Forecaster assignment:
